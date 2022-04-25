@@ -46,6 +46,7 @@ def is_cyclic(json):
     
     lists = get_lists_from_json(json)
     
+    print(lists)
     
     for list in lists:
         visited = []

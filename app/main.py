@@ -1,8 +1,7 @@
 from fastapi import FastAPI, WebSocket, Request
 from fastapi.responses import HTMLResponse
+from typing import Literal, Any
 from utils import is_cyclic
-from typing import Literal, List, Any
-from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -21,18 +20,26 @@ html: Literal = """
     textarea {
         display: block;
         margin: 1rem 0 1rem 0;
+        width: 32rem;
+        height: 13rem;
     }
     </style>
   </head>
   <h1>Alraedah</h1>
   <form>
-    <label for="textarea">Please enter lists, seprated by commas</label>
-    <textarea id="textarea" placeholder=""></textarea>
+    <label for="textarea">Please enter a JSON object</label>
+    <textarea required id="textarea">
+{
+"list1":[1, 2, 3],
+"list2":[0, 2 , 5],
+"list3":[3, 0, 1, 2]
+}</textarea>
     <button>Send</button>
   </form>
   <ul id="messages"></ul>
   <script>
     let ws = new WebSocket("ws://localhost:8000/ws");
+
     ws.onmessage = function (event) {
       let messages = document.getElementById("messages");
       let message = document.createElement("li");
@@ -40,40 +47,42 @@ html: Literal = """
       message.appendChild(content);
       messages.appendChild(message);
     };
+
     function sendMessage(event) {
       let input = document.getElementById("messageText");
       ws.send(input.value);
       input.value = "";
       event.preventDefault();
     }
-    function sendJSON(event) {
-      console.log(event)
-      event.preventDefault();
+
+    function sendJSON(data) {
       fetch("http://localhost:8000/upload", {
         method: "POST",
         headers: {
           Accept: "application/json, text/plain, */*",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: data,
       })
         .then((res) => res.json())
         .then((res) => console.log(res));
     }
     
-    
-    let textarea = document.querySelector("form textarea").value
     let button = document.querySelector("form button")
 
-    button.addEventListener("click", sendJSON(event))
+    button.addEventListener("click", (event, textarea) => {
+        sendJSON(document.querySelector("form textarea").value);
+        event.preventDefault();
+    })
   </script>
 </html>
 
 """
 
 @app.post("/upload", status_code=202)
-async def get_body(request: Request):
-    return await request.json()
+async def get_body(request: Request): 
+    json_body = await request.json()
+    return is_cyclic(json_body)
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
