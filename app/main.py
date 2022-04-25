@@ -90,11 +90,12 @@ async def get_body(request: Request):
         raise HTTPException(status_code=415, detail="An issue with JSON decoding occured.")
 
 @app.websocket("/ws")
-async def websocket_endpoint(websocket: WebSocket):
+async def websocket_endpoint(websocket: WebSocket) -> Any:
     await websocket.accept()
     while True:
-        data = await websocket.receive_json()
-        await websocket.send_text(data)
+        data = await websocket.receive_text()
+        await websocket.send_text(f"Message text was: {data}")
+
 
 @app.get("/")
 async def main() -> Any:

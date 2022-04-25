@@ -1,5 +1,5 @@
-import json
 from typing import Any
+
 def get_lists_from_json(json: dict) -> Any:
     return list(json)
 
