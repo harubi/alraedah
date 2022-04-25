@@ -1,5 +1,5 @@
 from json import JSONDecodeError
-from fastapi import FastAPI, WebSocket, Request, HTTPException
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse
 from typing import Literal, Any
 from utils import is_cyclic
@@ -40,23 +40,6 @@ html: Literal = """
   </form>
   <ul id="messages"></ul>
   <script>
-    let ws = new WebSocket("ws://localhost:8000/ws");
-
-    ws.onmessage = function (event) {
-      let messages = document.getElementById("messages");
-      let message = document.createElement("li");
-      let content = document.createTextNode(event.data);
-      message.appendChild(content);
-      messages.appendChild(message);
-    };
-
-    function sendMessage(event) {
-      let input = document.getElementById("messageText");
-      ws.send(input.value);
-      input.value = "";
-      event.preventDefault();
-    }
-
     function sendJSON(data) {
       fetch("http://localhost:8000/upload", {
         method: "POST",
@@ -88,14 +71,6 @@ async def get_body(request: Request):
         return is_cyclic(json_body)
     except JSONDecodeError:
         raise HTTPException(status_code=415, detail="An issue with JSON decoding occured.")
-
-@app.websocket("/ws")
-async def websocket_endpoint(websocket: WebSocket) -> Any:
-    await websocket.accept()
-    while True:
-        data = await websocket.receive_text()
-        await websocket.send_text(f"Message text was: {data}")
-
 
 @app.get("/")
 async def main() -> Any:
