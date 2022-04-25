@@ -14,7 +14,11 @@ Or we can represnt it as graph and use DFS.
 
 I went with an adjacency _list_ generation strategy, and using DFS to count visited nodes, and compare that with the original array.
 
-
+#### Known Limitations
+1. Recursive function limit. I think we need to think about that, and when to switch 
+to an iterative approach, especially when the recursion stack default limit is > 1000.
+2. JSON iterative and lazy-evaluation can give us a huge performance boost, but due to 
+time constraints, I haven't implemented a solution yet.
 
 
 ##### Ahmed Aloufi.

@@ -1,3 +1,8 @@
+import json
+from typing import Any
+def get_lists_from_json(json: dict) -> Any:
+    return list(json)
+
 def generate_adjacency_list(nodes):
     """ 
     A function to generate a linked-list representing a graph adjacency list from an array.
@@ -20,7 +25,7 @@ def dfs(visited, graph, node):
     DFS (Depth-first search) is our method here, where we recursively traverse 
     out our graph, and save them into the visited list. I have extended the function here to
     check if the working node is already in the visited list and if that list is also the 
-    length as the graph, thus actually proving that we have perfect cycle ;)
+    length as the graph, thus actually proving that we have, in fact, a perfect cycle ;)
     """
     if node not in visited:
         visited.append(node)
@@ -28,15 +33,24 @@ def dfs(visited, graph, node):
             return dfs(visited, graph, neighbour)
     elif node in visited and len(visited) == len(graph):
         return True
+    
+    return False
 
 
-def is_cyclic(list):
+def is_cyclic(json):
     """
-    A function that ties everything together and return true if the graph is cyclic.
+    A function that ties everything together and return true if the any graph is cyclic,
+    It goes every list, converts it to a graph and check.
     """
-
-    visited = []
-    graph = generate_adjacency_list(list)
-    firstGraphNode = next(iter(graph))
-
-    return dfs(visited, graph, firstGraphNode)
+    results = {}
+    
+    lists = get_lists_from_json(json)
+    
+    
+    for list in lists:
+        visited = []
+        graph = generate_adjacency_list(json[list])
+        firstGraphNode = next(iter(graph))
+        results[list] = dfs(visited, graph, firstGraphNode)
+        
+    return results
