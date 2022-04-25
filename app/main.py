@@ -7,10 +7,11 @@ from utils import is_cyclic
 app = FastAPI()
 
 html: Literal = """
+<!DOCTYPE html>
 <html>
   <head>
     <title>Alraedah</title>
-
+    <link rel="shortcut icon" type="image/jpg" href="https://elevatus-production.s3.eu-central-1.amazonaws.com/career_portal/2022/02/bd54436b-8125-430b-aca8-28f81ac52ded/original/RNGp4ux1BV26kDeEB6qM5XFeDIxDXpzxSvzQm0CA.png"/>
     <style>
     body {
         position: fixed;

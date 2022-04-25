@@ -19,6 +19,7 @@ I went with an adjacency _list_ generation strategy, and using DFS to count visi
 to an iterative approach, especially when the recursion stack default limit is > 1000.
 2. JSON iterative and lazy-evaluation can give us a huge performance boost, but due to 
 time constraints, I haven't implemented a solution yet.
+3. JSON validation needs some work, like checking if the incoming JSON follows the schema defined in the assessment.
 
 
 ##### Ahmed Aloufi.
