@@ -1,4 +1,5 @@
-from fastapi import FastAPI, WebSocket, Request
+from json import JSONDecodeError
+from fastapi import FastAPI, WebSocket, Request, HTTPException
 from fastapi.responses import HTMLResponse
 from typing import Literal, Any
 from utils import is_cyclic
@@ -81,8 +82,11 @@ html: Literal = """
 
 @app.post("/upload", status_code=202)
 async def get_body(request: Request): 
-    json_body = await request.json()
-    return is_cyclic(json_body)
+    try:
+        json_body = await request.json()
+        return is_cyclic(json_body)
+    except JSONDecodeError:
+        raise HTTPException(status_code=415, detail="An issue with JSON decoding occured.")
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
