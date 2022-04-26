@@ -3,7 +3,7 @@ services:
   app:
     container_name: app
     build: .
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    command: bash -c "cd app/ && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
     volumes:
       - .:/app
     ports:
@@ -17,7 +17,7 @@ services:
   celery_worker:
     container_name: celery_worker
     build: .
-    command: celery -A celery_worker.celery worker --loglevel=info
+    command: bash -c "cd app/ && celery -A celery_worker.celery worker --loglevel=info"
     volumes:
       - .:/app
     environment:
@@ -30,7 +30,7 @@ services:
   flower:
     container_name: flower
     build: .
-    command: celery -A celery_worker.celery flower --port=5555
+    command: bash -c "cd app/ && celery -A celery_worker.celery flower --port=5555"
     ports:
       - 5556:5555
     environment:

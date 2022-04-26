@@ -1,4 +1,9 @@
 from typing import Any
+"""
+This is very unsafe, but I did at for testing purposes.
+"""
+import sys
+sys.setrecursionlimit(1500)
 
 def get_lists_from_json(json: dict) -> Any:
     return list(json)
@@ -47,11 +52,13 @@ def is_cyclic(json):
     lists = get_lists_from_json(json)
     
     print(lists)
-    
-    for list in lists:
-        visited = []
-        graph = generate_adjacency_list(json[list])
-        firstGraphNode = next(iter(graph))
-        results[list] = dfs(visited, graph, firstGraphNode)
+    try:
+        for list in lists:
+            visited = []
+            graph = generate_adjacency_list(json[list])
+            firstGraphNode = next(iter(graph))
+            results[list] = dfs(visited, graph, firstGraphNode)
+    except Exception as e: 
+        return (e)
         
     return results

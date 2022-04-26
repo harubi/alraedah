@@ -1,4 +1,6 @@
-celery==5.2.6
+celery==5.1.2
 fastapi==0.70.0
 uvicorn==0.17.6
 python-dotenv==0.20.0
+redis==3.5.3
+flower==1.0.0

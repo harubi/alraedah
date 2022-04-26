@@ -1,8 +1,9 @@
-from json import JSONDecodeError
-from fastapi import FastAPI, Request, HTTPException
-from fastapi.responses import HTMLResponse
+from json import JSONDecodeError, loads
+import json
+from fastapi import FastAPI, Body, HTTPException
+from fastapi.responses import HTMLResponse, JSONResponse
 from typing import Literal, Any
-from utils import is_cyclic
+from celery_worker import create_task
 
 app = FastAPI()
 
@@ -38,6 +39,7 @@ html: Literal = """
 }</textarea>
     <button>Send</button>
   </form>
+  <div id="message"></div>
   <ul id="messages"></ul>
   <script>
     function sendJSON(data) {
@@ -65,10 +67,10 @@ html: Literal = """
 """
 
 @app.post("/upload", status_code=202)
-async def get_body(request: Request): 
+async def get_body(data=Body(...)):
     try:
-        json_body = await request.json()
-        return is_cyclic(json_body)
+        task = create_task.delay(data)
+        return JSONResponse({"Results:": task.get()})
     except JSONDecodeError:
         raise HTTPException(status_code=415, detail="An issue with JSON decoding occured.")
 
