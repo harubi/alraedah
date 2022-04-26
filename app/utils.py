@@ -1,11 +1,11 @@
 from typing import Any
-"""
-This is very unsafe, but I did at for testing purposes.
-"""
+
+# This is very unsafe, but I did at for testing purposes.
 import sys
 sys.setrecursionlimit(1500)
 
 def get_lists_from_json(json: dict) -> Any:
+    # BAD! We should iterate over json objects, never load them all info memory, we should leverage generator iterators and yield expressions here.
     try:
         return list(json)
     except Exception as e:
