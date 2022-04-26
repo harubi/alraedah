@@ -11,4 +11,7 @@ celery.conf.result_backend = os.environ.get("CELERY_RESULT_BACKEND")
 
 @celery.task(name="create_task")
 def create_task(data):
-    return is_cyclic(data)
+    try:
+        return is_cyclic(data)
+    except Exception as e:
+        return e
