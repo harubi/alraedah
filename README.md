@@ -20,7 +20,7 @@ to an iterative approach, especially when the recursion stack default limit is >
 2. JSON iterative and lazy-evaluation can give us a huge performance boost, but due to 
 time constraints, I haven't implemented a solution yet.
 3. JSON validation needs some work, like checking if the incoming JSON follows the schema defined in the assessment. We can do that using `jsonschema` library.
-4. Unit tests, are unfortunately not yet done due to time constraints.
-5. We return the results in console 🤨. Sorry, I wanted to implement part two first.
+4. Unit tests are unfortunately not yet done due to time constraints.
+5. We return the results in the console 🤨. Sorry, I wanted to implement part two first.
 
 ##### Ahmed Aloufi.
