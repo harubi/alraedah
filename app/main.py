@@ -71,8 +71,8 @@ async def get_body(data=Body(...)):
     try:
         task = create_task.delay(data)
         return JSONResponse({"Results:": task.get()})
-    except JSONDecodeError:
-        raise HTTPException(status_code=415, detail="An issue with JSON decoding occured.")
+    except Exception as e:
+        raise HTTPException(status_code=415, detail=f"{e}")
 
 @app.get("/")
 async def main() -> Any:

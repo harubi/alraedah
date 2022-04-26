@@ -6,7 +6,10 @@ import sys
 sys.setrecursionlimit(1500)
 
 def get_lists_from_json(json: dict) -> Any:
-    return list(json)
+    try:
+        return list(json)
+    except Exception as e:
+        return e
 
 def generate_adjacency_list(nodes):
     """ 
@@ -15,12 +18,14 @@ def generate_adjacency_list(nodes):
     and we add an array as a value containing the node (thus edge) pointed at.
     """
     graph = {}
-
-    for node in nodes:
-        try:
-            graph[node] = [nodes[node]]
-        except IndexError:
-            graph[node] = []
+    try:
+        for node in nodes:
+            try:
+                graph[node] = [nodes[node]]
+            except IndexError:
+                graph[node] = []
+    except Exception as e:
+        return e
 
     return graph
 
@@ -32,12 +37,15 @@ def dfs(visited, graph, node):
     check if the working node is already in the visited list and if that list is also the 
     length as the graph, thus actually proving that we have, in fact, a perfect cycle ;)
     """
-    if node not in visited:
-        visited.append(node)
-        for neighbour in graph[node]:
-            return dfs(visited, graph, neighbour)
-    elif node in visited and len(visited) == len(graph):
-        return True
+    try:
+        if node not in visited:
+            visited.append(node)
+            for neighbour in graph[node]:
+                return dfs(visited, graph, neighbour)
+        elif node in visited and len(visited) == len(graph):
+            return True
+    except Exception as e:
+        return e
     
     return False
 
