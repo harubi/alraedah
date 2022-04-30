@@ -4,12 +4,14 @@ from typing import Any
 import sys
 sys.setrecursionlimit(1500)
 
+
 def get_lists_from_json(json: dict) -> Any:
     # BAD! We should iterate over json objects, never load them all info memory, we should leverage generator iterators and yield expressions here.
     try:
         return list(json)
     except Exception as e:
         return e
+
 
 def generate_adjacency_list(nodes):
     """ 
@@ -46,7 +48,7 @@ def dfs(visited, graph, node):
             return True
     except Exception as e:
         return e
-    
+
     return False
 
 
@@ -56,9 +58,9 @@ def is_cyclic(json):
     It goes every list, converts it to a graph and check.
     """
     results = {}
-    
+
     lists = get_lists_from_json(json)
-    
+
     print(lists)
     try:
         for list in lists:
@@ -66,7 +68,7 @@ def is_cyclic(json):
             graph = generate_adjacency_list(json[list])
             firstGraphNode = next(iter(graph))
             results[list] = dfs(visited, graph, firstGraphNode)
-    except Exception as e: 
+    except Exception as e:
         return (e)
-        
+
     return results

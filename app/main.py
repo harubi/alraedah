@@ -66,6 +66,7 @@ html: Literal = """
 
 """
 
+
 @app.post("/upload", status_code=202)
 async def get_body(data=Body(...)):
     try:
@@ -73,6 +74,7 @@ async def get_body(data=Body(...)):
         return JSONResponse({"Results:": task.get()})
     except Exception as e:
         raise HTTPException(status_code=415, detail=f"{e}")
+
 
 @app.get("/")
 async def main() -> Any:
