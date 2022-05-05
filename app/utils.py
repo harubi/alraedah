@@ -1,11 +1,10 @@
-from typing import Any
-
+from typing import *
 # This is very unsafe, but I did at for testing purposes.
 import sys
 sys.setrecursionlimit(1500)
 
 
-def get_lists_from_json(json: dict) -> Any:
+def get_lists_from_json(json: dict) -> list:
     # BAD! We should iterate over json objects, never load them all info memory, we should leverage generator iterators and yield expressions here.
     try:
         return list(json)
@@ -13,7 +12,7 @@ def get_lists_from_json(json: dict) -> Any:
         return e
 
 
-def generate_adjacency_list(nodes):
+def generate_adjacency_list(nodes: list) -> dict:
     """ 
     A function to generate a linked-list representing a graph adjacency list from an array.
     For every item in the expanded list, we add to the graph the node as a key,
@@ -32,12 +31,12 @@ def generate_adjacency_list(nodes):
     return graph
 
 
-def dfs(visited, graph, node):
+def dfs(visited: list, graph: dict, node: int):
     """ 
     DFS (Depth-first search) is our method here, where we recursively traverse 
     out our graph, and save them into the visited list. I have extended the function here to
     check if the working node is already in the visited list and if that list is also the 
-    length as the graph, thus actually proving that we have, in fact, a perfect cycle ;)
+    same length as the graph, actually proving that we have, in fact, a perfect cycle ;)
     """
     try:
         if node not in visited:
@@ -52,16 +51,13 @@ def dfs(visited, graph, node):
     return False
 
 
-def is_cyclic(json):
+def is_cyclic(json: dict) -> dict:
     """
     A function that ties everything together and return true if the any graph is cyclic,
     It goes every list, converts it to a graph and check.
     """
     results = {}
-
     lists = get_lists_from_json(json)
-
-    print(lists)
     try:
         for list in lists:
             visited = []
