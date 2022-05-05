@@ -65,6 +65,6 @@ def is_cyclic(json: dict) -> dict:
             firstGraphNode = next(iter(graph))
             results[list] = dfs(visited, graph, firstGraphNode)
     except Exception as e:
-        return (e)
+        return e
 
     return results

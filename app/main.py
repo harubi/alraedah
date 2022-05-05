@@ -44,7 +44,7 @@ html: Literal = """
       fetch("http://localhost:8000/upload", {
         method: "POST",
         headers: {
-          Accept: "application/json, text/plain, */*",
+          Accept: "application/json",
           "Content-Type": "application/json",
         },
         body: data,
@@ -66,12 +66,12 @@ html: Literal = """
 
 
 @app.post("/upload", status_code=202)
-async def get_body(data=Body(...)):
+async def get_body(data: dict = Body(...)):
     try:
         task = create_task.delay(data)
-        return JSONResponse({"Results:": task.get()})
+        return JSONResponse(task.get())
     except Exception as e:
-        raise HTTPException(status_code=415, detail=f"{e}")
+        raise HTTPException(status_code=415, detail=f"{str(e)}")
 
 
 @app.get("/")
