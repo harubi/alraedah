@@ -66,7 +66,7 @@ html: Literal = """
 
 
 @app.post("/upload", status_code=202)
-async def get_body(data: dict = Body(...)):
+async def get_body(data: dict = Body(...)) -> dict:
     try:
         task = create_task.delay(data)
         return JSONResponse(task.get())
