@@ -1,6 +1,6 @@
 import os
 from celery import Celery
-from utils import is_cyclic
+from app.utils import is_cyclic
 from dotenv import load_dotenv
 
 load_dotenv(".env")

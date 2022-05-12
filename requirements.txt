@@ -4,3 +4,7 @@ uvicorn
 python-dotenv
 redis
 flower
+
+# dev
+pytest
+requests

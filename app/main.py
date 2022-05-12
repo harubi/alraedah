@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Body, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
 from typing import Literal, Any
-from celery_worker import create_task
+from app.celery_worker import create_task
 
 app = FastAPI()
 
