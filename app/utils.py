@@ -1,4 +1,4 @@
-from typing import *
+from typing import Iterable
 
 
 def get_lists_from_json(json: Iterable[dict]) -> list:
