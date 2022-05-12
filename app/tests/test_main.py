@@ -1,9 +1,8 @@
 from fastapi.testclient import TestClient
 
-from app.main import *
-from app import celery_worker
+from app import main
 
-client = TestClient(app)
+client = TestClient(main)
 
 def test_read_main():
     response = client.get("/")
