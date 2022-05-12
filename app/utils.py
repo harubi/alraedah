@@ -27,7 +27,6 @@ def generate_adjacency_list(nodes: Iterable[list]) -> dict:
 
     return graph
 
-generate_adjacency_list()
 
 def dfs(graph: Iterable[dict], starting_node: int):
     """
